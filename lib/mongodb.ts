@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI as string; // your mongodb connection string
+const uri = process.env.MONGODB_URI as string;
 const options = {};
 
 let client;
@@ -13,8 +14,6 @@ if (!process.env.MONGODB_URI) {
 if (process.env.NODE_ENV === 'development') {
   let { _mongoClientPromise }: any = global;
 
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!_mongoClientPromise) {
     client = new MongoClient(uri, options);
 
@@ -22,11 +21,8 @@ if (process.env.NODE_ENV === 'development') {
   }
   clientPromise = _mongoClientPromise;
 } else {
-  // In production mode, it's best to not use a global variable.
   client = new MongoClient(uri, options);
   clientPromise = client.connect();
 }
 
-// Export a module-scoped MongoClient promise. By doing this in a
-// separate module, the client can be shared across functions.
 export default clientPromise;
