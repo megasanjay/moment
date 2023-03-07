@@ -1,18 +1,21 @@
-import { MongoClient } from 'mongodb';
+/* eslint-disable no-console */
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
+import findConfig from 'find-config';
+import { MongoClient } from 'mongodb';
 
-dotenv.config();
+dotenv.config({ path: findConfig('.env.local') });
 
 const setup = async () => {
   let client;
 
   try {
+    console.log('Setting up database...');
     client = new MongoClient(process.env.MONGODB_URI);
     await client.connect();
 
     const hasData = await client
-      .db('test')
+      .db(process.env.MONGODB_DB)
       .collection('users')
       .countDocuments();
 
@@ -23,7 +26,7 @@ const setup = async () => {
     }
 
     const records = [...Array(10)].map(() => {
-      const [fName, lName] = faker.name.findName().split(' ');
+      const [fName, lName] = faker.name.fullName().split(' ');
       const username = faker.internet.userName(fName, lName);
       const email = faker.internet.email(fName, lName);
       const image = faker.image.people(640, 480, true);
@@ -39,7 +42,7 @@ const setup = async () => {
     });
 
     const insert = await client
-      .db('test')
+      .db(process.env.MONGODB_DB)
       .collection('users')
       .insertMany(records);
 

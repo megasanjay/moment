@@ -31,11 +31,9 @@ export default function Directory({
     <aside className="h-full w-full flex-shrink-0 overflow-scroll border-r border-gray-800 bg-black sm:w-96">
       <div className="sticky top-0 z-20 bg-black px-6 pt-6 pb-0">
         <Link href="/">
-          <a>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-dark-accent-1 transition-all hover:bg-dark-accent-2">
-              <DirectoryIcon className="text-white" />
-            </div>
-          </a>
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-dark-accent-1 transition-all hover:bg-dark-accent-2">
+            <DirectoryIcon className="text-white" />
+          </div>
         </Link>
         <p className="mt-8 text-2xl font-bold text-white">Directory</p>
         <p className="mt-2 text-sm text-dark-accent-5">
